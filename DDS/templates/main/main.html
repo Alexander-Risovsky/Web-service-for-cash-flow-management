@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<h1>Список записей</h1>
+
+<!-- Filter Form -->
+<div class="filter-form">
+    <form method="get" id="filterForm">
+        <div class="mb-2">
+            {{ filter.form.date_from.label_tag }} {{ filter.form.date_from }}
+        </div>
+        <div class="mb-2">
+            {{ filter.form.date_to.label_tag }} {{ filter.form.date_to }}
+        </div>
+        <div class="mb-2">
+            {{ filter.form.status.label_tag }} {{ filter.form.status }}
+        </div>
+        <div class="mb-2">
+            {{ filter.form.type.label_tag }} {{ filter.form.type }}
+        </div>
+        <div class="mb-2">
+            {{ filter.form.category.label_tag }} {{ filter.form.category }}
+        </div>
+        <div class="mb-2">
+            {{ filter.form.subcategory.label_tag }} {{ filter.form.subcategory }}
+        </div>
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </form>
+</div>
+
+
+<!-- JavaScript to handle dynamic subcategory loading -->
+<script src="{% static 'js/subcategory_filter.js' %}"></script>
+<script>
+    window.urlGetSubcategories = "{% url 'records:get_subcategories' %}";
+</script>
+
+<script src="{% static 'js/category_filter.js' %}"></script>
+<script>
+    window.urlGetcategories = "{% url 'records:get_categories_by_type' %}";
+</script>
+
+
+<!-- Table to display records -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Дата</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in Records  %}
+        <tr>
+            <td>{{ record.id }}</td>
+            <td>{{record.status.name}}</td>
+            <td>{{record.type.name}}</td>
+            <td>{{ record.created_dt }}</td>
+            <td>{{ record.category.name }}</td>
+            <td>{{ record.subcategory.name }}</td>
+            <td>{{ record.summa }}</td>
+            <td>{{ record.Comment }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

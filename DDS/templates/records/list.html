@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Список записей</h1>
+
+<form action="{% url "records:create_record" %}">
+    <button type="submit" class="btn btn-success"> 
+        Добавить запись
+    </button>
+</form>
+<!-- Table to display records -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Дата</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in Records  %}
+        <tr>
+            <td>{{ record.id }}</td>
+            <td>{{record.status.name}}</td>
+            <td>{{record.type.name}}</td>
+            <td>{{ record.created_dt }}</td>
+            <td>{{ record.category.name }}</td>
+            <td>{{ record.subcategory.name }}</td>
+            <td>{{ record.summa }}</td>
+            <td>{{ record.Comment }}</td>
+            <td>
+                <form action="{% url "records:edit_record" record.id %}" method="get" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-primary">Редактировать</button>
+                </form>
+             </td>
+            <td>
+                <form action="{% url "records:delete_record" record.id %}" method='post'>
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                </form>
+             </td>
+           
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

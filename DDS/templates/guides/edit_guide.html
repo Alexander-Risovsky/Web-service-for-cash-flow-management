@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            {% if form.instance.pk %}
+                <h5 class="mb-0">Редактировать {{ model_name|title|lower }}: {{ form.instance.name }}</h5>
+            {% else %}
+                <h5 class="mb-0">Создать {{ model_name|title|lower }}</h5>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/subcategory_filter.js' %}"></script>
+<script>
+    window.urlGetSubcategories = "{% url 'records:get_subcategories' %}";
+</script>
+
+<script src="{% static 'js/category_filter.js' %}"></script>
+<script>
+    window.urlGetcategories = "{% url 'records:get_categories_by_type' %}";
+</script>
+
+{% endblock content %}

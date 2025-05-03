@@ -3,14 +3,16 @@
 {% block content %}
 
 <div class="container">
+    <!-- Навигация по справочникам с выделением активной вкладки -->
     <nav class="nav nav-pills mb-4">
-        <!-- Условная логика для выделения активной вкладки -->
+        <!-- Активная вкладка определяется по model_name -->
         <a class="nav-link {% if model_name == 'Category' %}active{% endif %}" href="{% url 'guides:categories_list' %}">Категории</a>
         <a class="nav-link {% if model_name == 'Subcategory' %}active{% endif %}" href="{% url 'guides:subcategories_list' %}">Подкатегории</a>
         <a class="nav-link {% if model_name == 'Type' %}active{% endif %}" href="{% url 'guides:types_list' %}">Типы</a>
         <a class="nav-link {% if model_name == 'Status' %}active{% endif %}" href="{% url 'guides:statuses_list' %}">Статусы</a>
     </nav>
 
+    <!-- Кнопка для создания нового элемента справочника -->
     {% if model_name in "Category Subcategory Status Type" %}
     <form action="{% url "guides:create_"|add:model_name|lower %}" method="post" class="mb-4">
         {% csrf_token %}
@@ -18,29 +20,26 @@
     </form>
     {% endif %}
 
+    <!-- Список элементов справочника -->
     <div class="list-group">
-
         {% for item in list %}
-
         <div class="list-group-item d-flex justify-content-between align-items-center">
+            <!-- Название элемента справочника -->
             <span>{{ item.name }}</span>
             {% if model_name in "Category Subcategory Status Type" %}
-
             <div>
-                !<!-- Формы для удаления и редактирования справочников, используется для всех справочников(категории,подкатегории,статус,тип) -->
+                <!-- Кнопка для редактирования элемента -->
                 <form action="{% url "guides:edit_"|add:model_name|lower item.id %}" method="get" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-sm btn-primary">Редактировать</button>
                 </form>
-
+                <!-- Кнопка для удаления элемента -->
                 <form action="{% url "guides:delete_"|add:model_name|lower item.id %}" method="post" class="d-inline ms-2">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
                 </form>
             </div>
-
             {% endif %}
-
         </div>
         {% endfor %}
     </div>

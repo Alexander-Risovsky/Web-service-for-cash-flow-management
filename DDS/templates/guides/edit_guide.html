@@ -2,9 +2,9 @@
 {% load static %}
 {% block content %}
 
-
 <div class="container mt-4">
     <div class="card shadow-sm">
+        <!-- Заголовок карточки: меняется в зависимости от того, создаём или редактируем элемент -->
         <div class="card-header bg-primary text-white">
             {% if form.instance.pk %}
                 <h5 class="mb-0">Редактировать {{ model_name|title|lower }}: {{ form.instance.name }}</h5>
@@ -13,6 +13,7 @@
             {% endif %}
         </div>
         <div class="card-body">
+            <!-- Форма создания/редактирования элемента справочника -->
             <form method="post">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -24,11 +25,13 @@
     </div>
 </div>
 
+<!-- Скрипт для динамической подгрузки подкатегорий по выбранной категории -->
 <script src="{% static 'js/subcategory_filter.js' %}"></script>
 <script>
     window.urlGetSubcategories = "{% url 'records:get_subcategories' %}";
 </script>
 
+<!-- Скрипт для динамической подгрузки категорий по выбранному типу -->
 <script src="{% static 'js/category_filter.js' %}"></script>
 <script>
     window.urlGetcategories = "{% url 'records:get_categories_by_type' %}";

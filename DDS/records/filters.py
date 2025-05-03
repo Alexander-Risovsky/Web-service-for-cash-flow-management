@@ -2,6 +2,9 @@ import django_filters
 from records.models import Record
 from guides.models import Category, Subcategory, Type, Status
 
+# Фильтры для модели Record
+# Используем django_filters для создания фильтров
+
 
 class RecordFilter(django_filters.FilterSet):
     date_from = django_filters.DateFilter(field_name='created_dt', lookup_expr='gte', label='Дата от', input_formats=['%d.%m.%Y'])

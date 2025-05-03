@@ -2,6 +2,8 @@ from django import forms
 from .models import Record
 from guides.models import Subcategory
 
+# Форма для создания и редактирования записи
+
 
 class RecordForm(forms.ModelForm):
     class Meta:
@@ -13,10 +15,10 @@ class RecordForm(forms.ModelForm):
             'category': 'Обязательное поле.',
             'subcategory': 'Обязательное поле.',
         }
+
     # Прописываем метод init, чтобы при редактировании
     # записи в поле subcategory отображались только подкатегории
     # относящиеся к выбранной категории
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

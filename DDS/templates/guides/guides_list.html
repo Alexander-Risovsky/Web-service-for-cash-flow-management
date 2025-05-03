@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+
 {% block content %}
+
 <div class="container">
     <nav class="nav nav-pills mb-4">
+        <!-- Условная логика для выделения активной вкладки -->
         <a class="nav-link {% if model_name == 'Category' %}active{% endif %}" href="{% url 'guides:categories_list' %}">Категории</a>
         <a class="nav-link {% if model_name == 'Subcategory' %}active{% endif %}" href="{% url 'guides:subcategories_list' %}">Подкатегории</a>
         <a class="nav-link {% if model_name == 'Type' %}active{% endif %}" href="{% url 'guides:types_list' %}">Типы</a>
@@ -16,21 +19,28 @@
     {% endif %}
 
     <div class="list-group">
+
         {% for item in list %}
+
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <span>{{ item.name }}</span>
             {% if model_name in "Category Subcategory Status Type" %}
+
             <div>
+                !<!-- Формы для удаления и редактирования справочников, используется для всех справочников(категории,подкатегории,статус,тип) -->
                 <form action="{% url "guides:edit_"|add:model_name|lower item.id %}" method="get" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-sm btn-primary">Редактировать</button>
                 </form>
+
                 <form action="{% url "guides:delete_"|add:model_name|lower item.id %}" method="post" class="d-inline ms-2">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
                 </form>
             </div>
+
             {% endif %}
+
         </div>
         {% endfor %}
     </div>

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+
+
 {% block content %}
+
 <div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
@@ -18,16 +21,17 @@
     </div>
 </div>
 
-<!-- JavaScript to handle dynamic subcategory loading -->
+<!-- js скрипт для динамического определения подкатегорий у категории -->
 <script src="{% static 'js/subcategory_filter.js' %}"></script>
 <script>
     window.urlGetSubcategories = "{% url 'records:get_subcategories' %}";
 </script>
 
-
+<!-- js скрипт для динамического определения категорий у типа -->
 <script src="{% static 'js/category_filter.js' %}"></script>
 <script>
     window.urlGetcategories = "{% url 'records:get_categories_by_type' %}";
 </script>
+
 {% endblock content %}
 
